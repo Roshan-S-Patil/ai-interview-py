@@ -26,8 +26,10 @@ def handle_chat(thread_id: str, incoming_messages: list[dict]) -> list[dict]:
         config={"configurable": {"thread_id": thread_id}}
     )
 
-    new_messages = output["messages"]
-    return [{"role": msg.__class__.__name__.lower(), "content": msg.content} for msg in new_messages]
+    # new_messages = output["messages"]
+    # return [{"role": msg.__class__.__name__.lower(), "content": msg.content} for msg in new_messages]
+    new_message = output["messages"][-1]
+    return [{"role": new_message.__class__.__name__.lower(), "content": new_message.content}]
 
 
 # Asynchronous handler
@@ -49,4 +51,5 @@ async def handle_chat_async(thread_id: str, incoming_messages: list[dict]) -> li
         config={"configurable": {"thread_id": thread_id}}
     )
 
-    return [{"role": msg.__class__.__name__.lower(), "content": msg.content} for msg in output["messages"]]
+    last_msg = output["messages"][-1]
+    return [{"role": last_msg.__class__.__name__.lower(), "content": last_msg.content}]
